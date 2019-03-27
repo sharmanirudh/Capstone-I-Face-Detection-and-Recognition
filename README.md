@@ -1,10 +1,7 @@
 [![Heroku](https://brand.heroku.com/static/media/heroku-logotype-horizontal.81c49462.svg)](https://www.heroku.com/)
 # Face Detection &nbsp; & &nbsp; Recognition 
-##### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  C&nbsp;&nbsp; a&nbsp;&nbsp; p&nbsp;&nbsp; s&nbsp;&nbsp; t&nbsp;&nbsp; o&nbsp;&nbsp; n&nbsp;&nbsp; e&nbsp;&nbsp;                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 P&nbsp;&nbsp; r&nbsp;&nbsp; o&nbsp;&nbsp; j&nbsp;&nbsp; e&nbsp;&nbsp; c&nbsp;&nbsp; t&nbsp;&nbsp;
-#
-#
-#
-#
+#### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  C&nbsp;&nbsp; a&nbsp;&nbsp; p&nbsp;&nbsp; s&nbsp;&nbsp; t&nbsp;&nbsp; o&nbsp;&nbsp; n&nbsp;&nbsp; e&nbsp;&nbsp;                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                 P&nbsp;&nbsp; r&nbsp;&nbsp; o&nbsp;&nbsp; j&nbsp;&nbsp; e&nbsp;&nbsp; c&nbsp;&nbsp; t&nbsp;&nbsp;
+
 ### Tools & Technologies:
 - [Heroku](https://www.heroku.com/) - a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
 - [PWA (Progressive Web App)](https://developers.google.com/web/progressive-web-apps/) - web applications that load like regular web pages or websites but can offer the user functionality such as working offline, push notifications, and device hardware access traditionally available only to native applications.
