@@ -1,6 +1,7 @@
 import os
 import secrets
 import faces
+from PIL import Images
 from flask import Flask, render_template, url_for, flash, redirect
 from flask_sqlalchemy import SQLAlchemy
 from forms import RegistrationForm, LoginForm
@@ -40,7 +41,12 @@ def save_image(form_image):
     _, f_ext = os.path.splitext(form_image.filename)
     image_fn = random_hex + f_ext
     image_path = os.path.join(app.root_path, 'static/user_images', image_fn)
-    form_image.save(image_path)
+
+    output_size = (400, 400)
+    i = Image.open(form_image)
+    i.thumbnail(output_size)
+    i.save(image_path)
+    
     return image_fn, image_path
 
 @app.route("/register", methods=['GET','POST'])
