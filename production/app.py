@@ -34,7 +34,7 @@ class Dataset(db.Model):
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template('home.html')
+    return render_template('register.html', title="Register", selectedListElement="registerFace", form=form)
 
 def save_image(form_image):
     random_hex = secrets.token_hex(8)
@@ -72,4 +72,4 @@ def recognize():
     return render_template('recognize.html', title="Recognize", selectedListElement="recognizeFace")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    {% if title %}
+        <title>FacePrint - {{ title }}</title>
+    {% else %}
+        <title>FacePrint</title>
+    {% endif %}
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+	<!-- Font Awesome -->
+	<script type="text/javascript">
+	  // Notice how this gets configured before we load Font Awesome
+	  window.FontAwesomeConfig = { autoReplaceSvg: false }
+    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar Holder -->
+        <nav id="sidebar" class="p-3">
+            <div class="sidebar-header">
+                <h3>Face Detection & Recognition</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <p>Face Detection Prototype</p>
+                <li id="home">
+                    <a href="{{ url_for('home') }}">Home</a>
+                </li>
+                <li id="allFaces">
+                    <a href="#">All Faces</a>
+                </li>
+                <li id="registerFace">
+                    <a href="{{ url_for('register') }}">Register Face</a>
+                </li>
+                <li id="recognizeFace">
+                    <a href="{{ url_for('recognize') }}">Recognize Face</a>
+                </li>
+            </ul>
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <a href="#">Download app</a>
+                </li>
+                <li>
+                    <a href="https://github.com/sharmanirudh/Capstone-I-Face-Detection-and-Recognition"><i class="fab fa-github"></i> Github Repo</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content Holder -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="navbar-btn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    </button>
+                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav ml-auto">
+                            <!-- <li class="nav-item active">
+                                <a class="nav-link" href="#">Profile</a>
+                                </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Account</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            {% with messages = get_flashed_messages(with_categories = true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}{% endblock %}
+
+        </div>
+    </div>
+
+    <div id="imageModal" class="modal fade p-0" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog d-flex" style="height: 90%">
+            <div class="modal-content align-self-center">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <img src="" class="imagePreview" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#{{ selectedListElement }}').attr("class", "active");
+            
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $(this).toggleClass('active');
+            });
+
+            $('#imageModal').on('show.bs.modal', function (e) {
+               var src = $(e.relatedTarget).attr('src');
+               $(this).find('.modal-body > img.imagePreview').attr('src', src);
+            });
+
+            // $(function() {
+            //     $('.pop').on('click', function() {
+            //         console.log("sdgasgasd" + $(this).find('img').attr('src'));
+            //         $('.imagePreview').attr('src', $(this).find('img').attr('src'));
+            //         $('#imageModal').modal('show');   
+            //     });     
+            // });
+        });
+
+        window.onload = function() {
+            //Check File API support
+            if (window.File && window.FileList && window.FileReader) {
+                var filesInput = document.getElementById("images");
+                filesInput.addEventListener("change", function(event) {
+                    var files = event.target.files; //FileList object
+                    var imageContainer = document.getElementById("imageContainer");
+                    for (var i = 0; i < files.length; i++) {
+                        var file = files[i];
+                        //Only pics
+                        if (!file.type.match('image'))
+                            continue;
+                        var picReader = new FileReader();
+                        
+                        picReader.addEventListener("load", function(event){
+                            var picFile = event.target;
+                            imageContainer.innerHTML += "<a href='#' class='pop'><img data-toggle='modal' data-target='#imageModal' src='" + picFile.result + "'" + "title='" + picFile.name + "' alt='" + picFile.name + "'/></a>";
+                            console.log(picFile);
+                        });
+                        //Read the image
+                        picReader.readAsDataURL(file);
+                    }         
+                });
+            } else {
+                console.log("Your browser does not support File API");
+            }
+        }
+
+    </script>
+</body>
+
+</html>
