@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <!-- {% if title %}
+    {% if title %}
         <title>FacePrint - {{ title }}</title>
     {% else %}
         <title>FacePrint</title>
-    {% endif %} -->
+    {% endif %}
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -45,43 +45,62 @@
         <div id="content">
         	<div id="login_signup" class="d-flex justify-content-end pl-2 pr-2 pl-sm-4 pr-sm-4 pl-md-0 pl-lg-5">
         		<div id="signup_button_container">
-        			<button id="signup_button" class="button">Sign Up</button>
+        			<a href="{{ url_for('sign_up') }}"><button id="signup_button" class="button">Sign Up</button></a>
         		</div>
-        		<!-- <div id="google_login">
-        			Google Login
-        			<div id="google_sign_in" class="g-signin2" data-width="300" data-height="200" data-longtitle="true"></div>
-        		  	<script>
-        			    function onSuccess(googleUser) {
-        			      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-        			    }
-        			    function onFailure(error) {
-        			      console.log(error);
-        			    }
-        			    function renderButton() {
-        			      gapi.signin2.render('my-signin2', {
-        			        'scope': 'profile email',
-        			        'width': 240,
-        			        'height': 50,
-        			        'longtitle': true,
-        			        'theme': 'dark',
-        			        'onsuccess': onSuccess,
-        			        'onfailure': onFailure
-        			      });
-        			    }
-        		  	</script>
-        		  	<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
-        		</div> -->
+
         		<div id="email_login">
+
         			<div class="divider"></div>
+
+                    {% with messages = get_flashed_messages(with_categories = true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="h6 alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
         			Email Login
         			<div>
-        				<div class="d-flex justify-content-end">
-        					<input type="text" placeholder="Username" name="email_username">
-        				</div>
-        				<div class="d-flex justify-content-end">
-        					<input type="password" placeholder="Password" name="email_username">
-        					<button id="login_button">Login</button>
-        				</div>
+                        <form method="POST" action="" id="loginForm" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+            				<div class="d-flex justify-content-end flex-column">
+                                {% if form.email.errors %}
+                                    {{ form.email(class="is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.email.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.email(placeholder="Email") }}
+                                {% endif%}
+            				</div>
+            				<div class="d-flex justify-content-end flex-column">
+                                {% if form.password.errors %}
+                                    <span class="d-flex justify-content-end">
+                                        {{ form.password(placeholder="Password") }}
+                                        {{ form.submit() }}
+                                    </span>
+                                    <div class="invalid-feedback">
+                                        {% for error in form.password.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <span class="d-flex justify-content-end">
+                                        {{ form.password(placeholder="Password") }}
+                                        {{ form.submit() }}
+                                    </span>
+                                {% endif %}
+            				</div>
+                            <div class="d-flex justify-content-start form-check pl-2 mt-1">
+                                {{ form.remember.label(class="form-check-label ml-4 pl-2") }}
+                                {{ form.remember(class="form-check-input align-self-center") }}
+                            </div>
+                        </form>
         			</div>
         		</div>
         	</div>
@@ -94,18 +113,6 @@
     	    function cb(){ [b,a][this._tog^=1].call(this); }
     	    return this.on("click", cb);
     	};
-    	$(document).ready(function() {
-			$("#signup_button").clickToggle(
-				function () {
-					$(this)[0].innerHTML = "Login";
-					$("#email_login")[0].innerHTML = "<div class=\"divider\"><\/div>\r\n        \t\t\tEmail Login\r\n        \t\t\t<div>\r\n        \t\t\t\t<div class=\"d-flex justify-content-end\">\r\n        \t\t\t\t\t<input type=\"text\" placeholder=\"Username\" name=\"email\">\r\n        \t\t\t\t<\/div>\r\n        \t\t\t\t<div class=\"d-flex justify-content-end\">\r\n        \t\t\t\t\t<input type=\"password\" placeholder=\"Password\" name=\"password\">\r\n        \t\t\t\t<\/div>\r\n        \t\t\t\t<div class=\"d-flex justify-content-end\">\r\n        \t\t\t\t\t<input type=\"confirm_password\" placeholder=\"Confirm password\" name=\"confirm_password\">\r\n        \t\t\t\t\t<button id=\"login_button\">Sign up<\/button>\r\n        \t\t\t\t<\/div>\r\n        \t\t\t<\/div>";
-				},
-				function () {
-					$(this)[0].innerHTML = "Sign up";
-					$("#email_login")[0].innerHTML = "<div class=\"divider\"><\/div>\r\n        \t\t\tEmail Sign up\r\n        \t\t\t<div>\r\n        \t\t\t\t<div class=\"d-flex justify-content-end\">\r\n        \t\t\t\t\t<input type=\"text\" placeholder=\"Username\" name=\"email_username\">\r\n        \t\t\t\t<\/div>\r\n        \t\t\t\t<div class=\"d-flex justify-content-end\">\r\n        \t\t\t\t\t<input type=\"password\" placeholder=\"Password\" name=\"email_username\">\r\n        \t\t\t\t\t<button id=\"login_button\">Login<\/button>\r\n        \t\t\t\t<\/div>\r\n        \t\t\t<\/div>";
-				}
-			);
-		});
     </script>
 </body>
 </html>

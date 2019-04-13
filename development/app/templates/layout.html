@@ -41,16 +41,16 @@
             <ul class="list-unstyled components">
                 <p>Face Detection Prototype</p>
                 <li id="home">
-                    <a href="{{ url_for('home') }}">Home</a>
+                    <a href="{{ url_for('register_face') }}">Home</a>
                 </li>
                 <li id="allFaces">
                     <a href="#">All Faces</a>
                 </li>
                 <li id="registerFace">
-                    <a href="{{ url_for('register') }}">Register Face</a>
+                    <a href="{{ url_for('register_face') }}">Register Face</a>
                 </li>
                 <li id="recognizeFace">
-                    <a href="{{ url_for('recognize') }}">Recognize Face</a>
+                    <a href="{{ url_for('recognize_face') }}">Recognize Face</a>
                 </li>
             </ul>
             <ul class="list-unstyled CTAs">
@@ -81,10 +81,10 @@
                                 <a class="nav-link" href="#">Profile</a>
                                 </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Profile</a>
+                                <a class="nav-link" href="#">Account</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Account</a>
+                                <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
                             </li>
                         </ul>
                     </div>
@@ -126,56 +126,62 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#{{ selectedListElement }}').attr("class", "active");
-            
             $('#sidebarCollapse').on('click', function () {
                 $('#sidebar').toggleClass('active');
                 $(this).toggleClass('active');
             });
+        });
+    </script>
 
-            $('#imageModal').on('show.bs.modal', function (e) {
-               var src = $(e.relatedTarget).attr('src');
-               $(this).find('.modal-body > img.imagePreview').attr('src', src);
+    {% if selectedListElement: %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#{{ selectedListElement }}').attr("class", "active");
+
+                $('#imageModal').on('show.bs.modal', function (e) {
+                   var src = $(e.relatedTarget).attr('src');
+                   $(this).find('.modal-body > img.imagePreview').attr('src', src);
+                });
+
+                // $(function() {
+                //     $('.pop').on('click', function() {
+                //         console.log("sdgasgasd" + $(this).find('img').attr('src'));
+                //         $('.imagePreview').attr('src', $(this).find('img').attr('src'));
+                //         $('#imageModal').modal('show');   
+                //     });     
+                // });
             });
 
-            // $(function() {
-            //     $('.pop').on('click', function() {
-            //         console.log("sdgasgasd" + $(this).find('img').attr('src'));
-            //         $('.imagePreview').attr('src', $(this).find('img').attr('src'));
-            //         $('#imageModal').modal('show');   
-            //     });     
-            // });
-        });
-
-        window.onload = function() {
-            //Check File API support
-            if (window.File && window.FileList && window.FileReader) {
-                var filesInput = document.getElementById("images");
-                filesInput.addEventListener("change", function(event) {
-                    var files = event.target.files; //FileList object
-                    var imageContainer = document.getElementById("imageContainer");
-                    for (var i = 0; i < files.length; i++) {
-                        var file = files[i];
-                        //Only pics
-                        if (!file.type.match('image'))
-                            continue;
-                        var picReader = new FileReader();
-                        
-                        picReader.addEventListener("load", function(event){
-                            var picFile = event.target;
-                            imageContainer.innerHTML += "<a href='#' class='pop'><img data-toggle='modal' data-target='#imageModal' src='" + picFile.result + "'" + "title='" + picFile.name + "' alt='" + picFile.name + "'/></a>";
-                            console.log(picFile);
-                        });
-                        //Read the image
-                        picReader.readAsDataURL(file);
-                    }         
-                });
-            } else {
-                console.log("Your browser does not support File API");
+            window.onload = function() {
+                //Check File API support
+                if (window.File && window.FileList && window.FileReader) {
+                    var filesInput = document.getElementById("images");
+                    filesInput.addEventListener("change", function(event) {
+                        var files = event.target.files; //FileList object
+                        var imageContainer = document.getElementById("imageContainer");
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
+                            //Only pics
+                            if (!file.type.match('image'))
+                                continue;
+                            var picReader = new FileReader();
+                            
+                            picReader.addEventListener("load", function(event){
+                                var picFile = event.target;
+                                imageContainer.innerHTML += "<a href='#' class='pop'><img data-toggle='modal' data-target='#imageModal' src='" + picFile.result + "'" + "title='" + picFile.name + "' alt='" + picFile.name + "'/></a>";
+                                console.log(picFile);
+                            });
+                            //Read the image
+                            picReader.readAsDataURL(file);
+                        }         
+                    });
+                } else {
+                    console.log("Your browser does not support File API");
+                }
             }
-        }
+        </script>
+    {% endif %}
 
-    </script>
 </body>
 
 </html>

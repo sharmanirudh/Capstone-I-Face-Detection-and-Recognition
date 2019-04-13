@@ -139,6 +139,14 @@ input:focus {
 	font-size: 0.9em;
     color: #a5bbce;
 }
+input[type=submit] {
+	cursor:pointer;
+}
+input[type=checkbox] {
+	width: 20px;
+	height: 20px;
+	margin: 0;
+}
 .button {
 	width: 90px;
 	font-family: "Google Sans Medium";
