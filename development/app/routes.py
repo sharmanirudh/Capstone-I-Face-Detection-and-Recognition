@@ -1,35 +1,11 @@
 import os
 import secrets
-import faces
 from PIL import Image
-from flask import Flask, render_template, url_for, flash, redirect
-from flask_sqlalchemy import SQLAlchemy
-from forms import RegistrationForm, LoginForm
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = '61c5219a46120c351894df0dcd681761'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    name = db.Column(db.String(30), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
-    images = db.relationship('Dataset', backref='author', lazy=True)
-
-    def __repr__(self):
-        return f"User('{self.id}', '{self.username}', '{self.email}', '{self.name}', '{self.images}')"
-
-class Dataset(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    image_file = db.Column(db.String(20), nullable=False)
-
-    def __repr__(self):
-        return f"Dataset('{self.id}', '{self.user_id}', '{self.image_file}')"
+from flask import render_template, url_for, flash, redirect
+from app import app
+from app import faces
+from app.forms import RegistrationForm, LoginForm
+from app.models import User, Person, Dataset
 
 @app.route("/")
 @app.route("/home")
@@ -70,6 +46,3 @@ def register():
 @app.route("/recognize")
 def recognize():
     return render_template('recognize.html', title="Recognize", selectedListElement="recognizeFace")
-
-if __name__ == '__main__':
-    app.run(debug=True)

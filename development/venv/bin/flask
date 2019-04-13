@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/home/anirudh/Dropbox/Projects/Capstone I - Face Detection & Recognition/src/development/venv/bin/python3" "$0" "$@"
+'''exec' "/home/anirudh/Dropbox/Projects/Capstone I - Face Detection & Recognition/development/venv/bin/python3" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

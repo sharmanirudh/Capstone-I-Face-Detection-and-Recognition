@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/home/anirudh/Dropbox/Projects/Capstone I - Face Detection & Recognition/src/development/venv"
+set -gx VIRTUAL_ENV "/home/anirudh/Dropbox/Projects/Capstone I - Face Detection & Recognition/development/venv"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

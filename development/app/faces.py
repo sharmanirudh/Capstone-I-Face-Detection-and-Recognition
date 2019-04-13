@@ -3,7 +3,7 @@ import numpy as np
 import cv2 as cv
 
 def detectFace(image_path, image_name):
-	face_cascade = cv.CascadeClassifier('haarcascade_frontalface_default.xml')
+	face_cascade = cv.CascadeClassifier('app/haarcascade_frontalface_default.xml')
 
 	img = cv.imread(image_path)
 	gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
