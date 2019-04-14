@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <form id="registerationForm" class="p-2 pt-md-0 mt-1 pt-sm-3 mt-md-2 mt-lg-0">
+        <div class="container col-md-12 col-lg-11">
+            <div class="row">
+                <h3 class="p-1">{{ datasets[0].author.name[16:] }} Photos ({{ datasets|length }})</h3>
+
+                <div class="line"></div>
+
+                <div class="col-12">
+                    <div id="photoFrame" class="shadow-lg p-3 bg-white rounded text-center">
+                        <div id="imageContainer">
+                            {% for dataset in datasets: %}
+                                <a href='#' class='pop'><img data-toggle='modal' data-target='#imageModal' class="img-rounded listFaces" src="{{ url_for('static', filename='user_images/' + dataset.image_file) }}" alt="file_name"></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

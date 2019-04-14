@@ -16,7 +16,7 @@ class User(db.Model, UserMixin):
 
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(30), unique=True, nullable=False) # name = hex + name
+    name = db.Column(db.String(48), unique=True, nullable=False) # name = hex(size=8) + name(max_size=40)
     images = db.relationship('Dataset', backref='author', lazy=True)
 
     def __repr__(self):

@@ -44,7 +44,7 @@
                     <a href="{{ url_for('register_face') }}">Home</a>
                 </li>
                 <li id="allFaces">
-                    <a href="#">All Faces</a>
+                    <a href="{{ url_for('all_faces') }}">All Faces</a>
                 </li>
                 <li id="registerFace">
                     <a href="{{ url_for('register_face') }}">Register Face</a>
@@ -81,7 +81,7 @@
                                 <a class="nav-link" href="#">Profile</a>
                                 </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Account</a>
+                                <a class="nav-link" href="{{ url_for('account') }}">Account</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
@@ -130,28 +130,18 @@
                 $('#sidebar').toggleClass('active');
                 $(this).toggleClass('active');
             });
-        });
-    </script>
 
-    {% if selectedListElement: %}
-        <script type="text/javascript">
-            $(document).ready(function () {
+            {% if selectedListElement: %}
                 $('#{{ selectedListElement }}').attr("class", "active");
+            {% endif %}
 
-                $('#imageModal').on('show.bs.modal', function (e) {
-                   var src = $(e.relatedTarget).attr('src');
-                   $(this).find('.modal-body > img.imagePreview').attr('src', src);
-                });
-
-                // $(function() {
-                //     $('.pop').on('click', function() {
-                //         console.log("sdgasgasd" + $(this).find('img').attr('src'));
-                //         $('.imagePreview').attr('src', $(this).find('img').attr('src'));
-                //         $('#imageModal').modal('show');   
-                //     });     
-                // });
+            $('#imageModal').on('show.bs.modal', function (e) {
+               var src = $(e.relatedTarget).attr('src');
+               $(this).find('.modal-body > img.imagePreview').attr('src', src);
             });
+        });
 
+        {% if selectedListElement == 'registerFace' or selectedListElement == 'recognizeFace': %}
             window.onload = function() {
                 //Check File API support
                 if (window.File && window.FileList && window.FileReader) {
@@ -179,8 +169,8 @@
                     console.log("Your browser does not support File API");
                 }
             }
-        </script>
-    {% endif %}
+        {% endif %}    
+    </script>
 
 </body>
 

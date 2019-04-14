@@ -351,3 +351,22 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
 .imagePreview {
     width: 100%;
 }
+
+
+/* ---------------------------------------------------
+    All Faces
+----------------------------------------------------- */
+#photoFaceFrame {
+    height: auto;
+}
+#photoFaceFrame div {
+    height: 140px;
+}
+#photoFaceFrame div:hover {
+    height: 144px;
+}
+#photoFaceFrame div img {
+    width: auto;
+    height: 100%;
+    border-radius: 4px;
+}

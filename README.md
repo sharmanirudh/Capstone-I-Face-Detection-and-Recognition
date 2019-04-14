@@ -7,7 +7,7 @@
 - [Heroku](https://www.heroku.com/) - a platform as a service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
 - [PWA (Progressive Web App)](https://developers.google.com/web/progressive-web-apps/) - web applications that load like regular web pages or websites but can offer the user functionality such as working offline, push notifications, and device hardware access traditionally available only to native applications.
 - [Docker](https://www.docker.com/) - Docker is a tool designed to make it easier to create, deploy, and run applications by using containers.
-- [Django](http://flask.pocoo.org/) - backend framework.
+- [Flask](http://flask.pocoo.org/) - backend framework.
 - [PyBuilder](http://pybuilder.github.io/) - build tool.
 - [PyTest](https://docs.pytest.org/en/latest/) - test tool.
 - [TensorFlow](https://www.tensorflow.org/) - a free and open source symbolic math library, and is also used for machine learning applications such as neural networks.
