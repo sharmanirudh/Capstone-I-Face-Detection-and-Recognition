@@ -1,5 +1,17 @@
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
+:root {
+    --dark-primary-color: #111111;
+    --default-primary-color: #555555;
+    --light-primary-color: #D7CCC8;
+    --text-color: #FFFFFF;
+    --accent-color: chartreuse;
+    --primary-text-color: #212121;
+    --secondary-text-color: cornflowerblue;
+    --divider-color: #BDBDBD;
+}
+
+
 body {
     font-family: 'Poppins', sans-serif;
     background: #fafafa;
@@ -369,4 +381,22 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
     width: auto;
     height: 100%;
     border-radius: 4px;
+}
+
+#btnAdd {
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px;
+    color: #7386D5;
+    background: #ffffff;
+    font-size: 0.9em;
+}
+.centerAlign {
+    left: 50%;
+    margin-left: -25px !important;/* size of logoImg / 2 */
+    position: absolute;
+}
+#logoImg {
+    width: 50px;
 }

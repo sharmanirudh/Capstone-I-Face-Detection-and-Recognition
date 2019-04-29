@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- PWA -->
+    <meta name="description" content="FacePrint is a webapp for Face Detection & Recognition">
+    <meta name="author" content="Anirudh Sharma">
+    <meta name="theme-color" content="transparent">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="transparent">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/icon-152x152.png') }}">
+
+    {% if title %}
+        <title>FacePrint - {{ title }}</title>
+    {% else %}
+        <title>FacePrint</title>
+    {% endif %}
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+
+	<!-- Font Awesome -->
+	<script type="text/javascript">
+	  // Notice how this gets configured before we load Font Awesome
+	  window.FontAwesomeConfig = { autoReplaceSvg: false }
+    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<body class="d-flex justify-content-center h-100">
+    <button class="d-none" id="btnAdd"></button>
+    <div class="d-flex container align-self-center justify-content-end col-11 col-sm-9 col-md-11 col-lg-8 p-0">
+        <div id="face_animation" class="align-self-start mt-5 mt-md-3 mt-lg-2 mr-2 mr-md-2 pl-sm-0 col-12 col-sm-12 col-md-7 col-lg-6"></div>
+        <div id="shape1" class="align-self-start pl-sm-0 pr-sm-0 col-12"></div>
+        <!-- <div id="shape2" class="align-self-start pl-sm-0 pr-sm-0 col-2 col-sm-3 col-md-3 col-lg-4"></div> -->
+        <!-- <div id="shape3" class="align-self-end pl-sm-0 pr-sm-0 d-none d-sm-block col-2 col-sm-11 col-md-10 col-lg-10"></div> -->
+        <div id="shape4" class="align-self-end pl-sm-0 pr-sm-0 col-12 col-sm-9"></div>
+        <div id="shape5" class="align-self-end pl-sm-0 pr-sm-0 col-9 col-sm-6"></div>
+        <div id="shape6" class="align-self-end pl-sm-0 pr-sm-0 col-4 col-sm-3"></div>
+        <h1 id="logo" class="align-self-start col-12 pl-4 pl-sm-4 pl-lg-5 pt-3 pt-sm-3 pt-lg-4">Face<span class="text-dark">print</span></h1>
+        <div id="content">
+        	<div id="login_signup" class="d-flex justify-content-end pl-2 pr-2 pl-sm-4 pr-sm-4 pl-md-0 pl-lg-5">
+        		<div id="signup_button_container">
+        			<a href="{{ url_for('sign_up') }}"><button id="signup_button" class="button">Sign Up</button></a>
+        		</div>
+
+                <div id="email_login">
+
+                    <br>
+                    <div class="divider"></div>
+                    <br>
+
+                </div>
+
+                <div id="signup_button_container">
+                    <a href="{{ url_for('login') }}"><button id="signup_button" class="button">Login</button></a>
+                </div>
+
+        		
+        	</div>
+        </div>
+
+    </div>
+
+    <!-- PWA -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+    <script type="text/javascript">
+    	jQuery.fn.clickToggle = function(a, b) {
+    	    function cb(){ [b,a][this._tog^=1].call(this); }
+    	    return this.on("click", cb);
+    	};
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block content %}
+
+    <form id="registerationForm" class="p-2 pt-md-0 mt-1 pt-sm-3 mt-md-2 mt-lg-0">
+        <div class="container col-md-12 col-lg-11">
+            <div class="row">
+                <h3 class="p-1">Recognized Faces</h3>
+                <div class="col-12">
+                    <div id="photoFrame" class="shadow-lg p-3 bg-white rounded text-center">
+                        <div id="imageContainer">
+                            {% if images %}
+                                {% for image in images %}
+                                    <a href="#" class="pop">
+                                        <img data-toggle="modal" data-target="#imageModal" src="{{ url_for('static', filename='user_images/') }}{{ image }}" title="{{ image }}"/>
+                                    </a>
+                                {% endfor %}
+                            {% endif %}
+                            <!-- <img id="uploadedImage" class="img-rounded" src="file_path" alt="file_name"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

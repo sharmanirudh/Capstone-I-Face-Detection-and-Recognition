@@ -13,11 +13,11 @@
                 {% for person in persons: %}
                     <a class="col mb-2" href="{{ url_for('face', person_id=person.id) }}">
                         <div>
-                            <div id="photoFaceFrame" class="shadow-lg p-3 bg-white rounded text-center">
+                            <div id="photoFaceFrame" class="shadow-lg p-2 pt-3 pb-3 bg-white rounded text-center">
                                 <div>
-                                    <img class="img-rounded listFaces" src="{{ url_for('static', filename='user_images/' + person.images[0].image_file) }}" alt="{{ person.name[16:] }}">
+                                    <img class="img-rounded listFaces" src="{{ url_for('static', filename='images/dataset/' + person.id|string + '/' + person.images[0].image_file) }}" alt="{{ person.name[16:] }}">
                                 </div>
-                                <h6 class="mt-1 mb-0 p-0">{{ person.name[16:] }}</h6>
+                                <h6 class="mt-2 mb-0 p-0">{{ person.name }}</h6>
                             </div>
                         </div>
                     </a>

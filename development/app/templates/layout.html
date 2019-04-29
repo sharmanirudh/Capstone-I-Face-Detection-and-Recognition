@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <!-- PWA -->
+    <meta name="description" content="FacePrint is a webapp for Face Detection & Recognition">
+    <meta name="author" content="Anirudh Sharma">
+    <meta name="theme-color" content="transparent">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="transparent">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icons/icon-152x152.png') }}">
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
     {% if title %}
         <title>FacePrint - {{ title }}</title>
     {% else %}
@@ -36,26 +47,29 @@
         <!-- Sidebar Holder -->
         <nav id="sidebar" class="p-3">
             <div class="sidebar-header">
-                <h3>Face Detection & Recognition</h3>
+                <h3>FacePrint</h3>
             </div>
             <ul class="list-unstyled components">
-                <p>Face Detection Prototype</p>
+                <p>Face Detection & Recognition</p>
                 <li id="home">
                     <a href="{{ url_for('register_face') }}">Home</a>
                 </li>
                 <li id="allFaces">
                     <a href="{{ url_for('all_faces') }}">All Faces</a>
                 </li>
+                <li id="detectFaces">
+                    <a href="{{ url_for('detect_faces') }}">Detect Faces</a>
+                </li>
                 <li id="registerFace">
                     <a href="{{ url_for('register_face') }}">Register Face</a>
                 </li>
                 <li id="recognizeFace">
-                    <a href="{{ url_for('recognize_face') }}">Recognize Face</a>
+                    <a href="{{ url_for('recognize_faces') }}">Recognize Faces</a>
                 </li>
             </ul>
             <ul class="list-unstyled CTAs">
                 <li>
-                    <a href="#">Download app</a>
+                    <button id="btnAdd" class="col-12">Download app</button>
                 </li>
                 <li>
                     <a href="https://github.com/sharmanirudh/Capstone-I-Face-Detection-and-Recognition"><i class="fab fa-github"></i> Github Repo</a>
@@ -72,7 +86,8 @@
                     <span></span>
                     <span></span>
                     </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="centerAlign" href="{{ url_for('register_face') }}"><img id="logoImg" src="{{ url_for('static', filename='images/for favicon-512x512.png') }}"></a>
+                    <button class="btn btn-dark d-inline-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-align-justify"></i>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -117,6 +132,9 @@
         </div>
     </div>
 
+    <!-- PWA -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/app.js') }}"></script>
+
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
@@ -141,7 +159,7 @@
             });
         });
 
-        {% if selectedListElement == 'registerFace' or selectedListElement == 'recognizeFace': %}
+        {% if selectedListElement == 'detectFaces' or selectedListElement == 'registerFace' or selectedListElement == 'recognizeFace': %}
             window.onload = function() {
                 //Check File API support
                 if (window.File && window.FileList && window.FileReader) {
@@ -149,6 +167,7 @@
                     filesInput.addEventListener("change", function(event) {
                         var files = event.target.files; //FileList object
                         var imageContainer = document.getElementById("imageContainer");
+                        imageContainer.innerHTML = "";
                         for (var i = 0; i < files.length; i++) {
                             var file = files[i];
                             //Only pics
@@ -169,7 +188,7 @@
                     console.log("Your browser does not support File API");
                 }
             }
-        {% endif %}    
+        {% endif %}
     </script>
 
 </body>

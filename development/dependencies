@@ -5,3 +5,4 @@ pip3 install Pillow
 pip3 install opencv-python
 pip3 install flask-bcrypt
 pip3 install flask-login
+pip3 install face_recognition
