@@ -4,7 +4,7 @@ from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, make_response, send_from_directory
 from app import app, db, bcrypt
 from app import faces
-from app.forms import DetectionForm, RegistrationForm, RecognizeForm, LoginForm, SignUpForm, UpdateAccountForm
+from app.forms import DetectionForm, RegistrationForm, RecognizeForm, LoginForm, SignUpForm, UpdateAccountForm, UpdateDatasetForm
 from app.models import User, Person, Dataset
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -174,6 +174,8 @@ def account():
     form = UpdateAccountForm()
     if form.validate_on_submit():
         current_user.email = form.email.data
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        current_user.password = hashed_password
         db.session.commit()
         flash(f'Your account has been updated.', 'success')
         return redirect(url_for('account', title='Account'))
@@ -198,7 +200,80 @@ def face(person_id):
     print(person)
     print(datasets)
     print('###############################################################################')
-    return render_template('face.html', title='Face', datasets=datasets)
+    return render_template('face.html', title=person.name, person=person, datasets=datasets)
+
+
+@app.route("/faces/<int:person_id>/update", methods=['GET','POST'])
+@login_required
+def update_face(person_id):
+    form = UpdateDatasetForm()
+    person = Person.query.get_or_404(person_id)
+    datasets = Dataset.query.filter_by(author=person).all()
+    print('###############################################################################')
+    print(person)
+    print(datasets)
+    print('###############################################################################')
+    if form.validate_on_submit():
+        if form.images.data:
+            print("##############################################################\n")
+            print(form.images.data)
+            images = []
+            # random_hex = secrets.token_hex(8)
+            has_at_least_one_image_with_single_face = False
+            for image in form.images.data:
+                # TODO see if there is one only one face in the image (because suppose if there are 
+                # 2 persons in the image and the 2nd one tries to recognize himself then if id folder
+                # of 1st one comes first than the 2nd one's id folder, 2nd one will be recognized as
+                # 1st person as the photo is in 1st person's id folder)
+                
+                # see if there is any image or not
+                if image.mimetype.find("image") == -1:
+                    break
+                face_image = faces.hasSingleFace(image)
+                if face_image is not None:
+                    has_at_least_one_image_with_single_face = True
+                    image_fn, image_path = save_image_to_dataset(dir_name=str(person_id), 
+                        form_image_name=image.filename, to_be_saved_image=face_image)
+                    dataset = Dataset(image_file=image_fn, author=person)
+                    db.session.add(dataset)
+                    print(image_path)
+                    images.append(image_fn)
+            name = form.name.data
+            if name != person.name:
+                person.name = name
+            image_deleted_from_dataset = False
+            if form.images_to_be_deleted.data:
+                for image_id in form.images_to_be_deleted.data.split(";"):
+                    dataset = Dataset.query.get(image_id)
+                    path_to_image = './app/static/images/dataset/' + str(person_id) +'/' + dataset.image_file
+                    if os.path.exists(path_to_image):
+                        image_deleted_from_dataset = True
+                        os.remove(path_to_image)
+                        db.session.delete(dataset)
+            db.session.commit()
+            # update dataset_faces.dat if either an image was deleted from dataset or new image was added
+            if has_at_least_one_image_with_single_face is True or image_deleted_from_dataset is True:
+                faces.make_new_face_encodings()
+            flash(f'Successfully updated {form.name.data}.', 'success')
+            return redirect(url_for('face', person_id=person_id))
+        else:
+            flash(f'{form.name.data} not updated.', 'danger')
+            return render_template('update_face.html', title=person.name, file_select=True, enableDeletePersonPhoto=True, datasets=datasets, form=form)
+
+    elif request.method == 'GET':
+        form.name.data = person.name
+    return render_template('update_face.html', title=person.name, file_select=True, enableDeletePersonPhoto=True, datasets=datasets, form=form)
+
+
+@app.route("/faces/<int:person_id>/delete", methods=['POST'])
+@login_required
+def delete_person(person_id):
+    person = Person.query.get_or_404(person_id)
+    db.session.delete(person)
+    db.session.commit()
+    shutil.rmtree('./app/static/images/dataset/' + str(person_id) +'/')
+    flash(f'Successfully deleted person - {person.name}!', 'success')
+    return redirect(url_for('all_faces'))
 
 
 @app.route('/manifest.json')

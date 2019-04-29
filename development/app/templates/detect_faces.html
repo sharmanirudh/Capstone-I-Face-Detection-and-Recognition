@@ -10,7 +10,7 @@
                     <div class="file-field float-right">
                         <a class="btn-floating bg-dark mt-0 float-left">
                         <i class="fas fa-camera" aria-hidden="true"></i>
-                        {{ form.images(multiple="multiple") }}
+                        {{ form.images(multiple="multiple", accept="image/png,image/jpg,image/jpeg") }}
                         </a>
                     </div>
                     {% if form.images.errors %}
@@ -18,8 +18,8 @@
                             <small><span class="text-danger">{{ error }}</span></small>
                         {% endfor %}
                     {% endif %}
-                    <div id="photoFrame" class="shadow-lg p-3 bg-white rounded text-center">
-                        <div id="imageContainer">
+                    <div class="photoFrame shadow-lg p-3 bg-white rounded text-center">
+                        <div id="imageSelectShow" class="imageContainer">
                             <!-- <img id="uploadedImage" class="img-rounded" src="file_path" alt="file_name"> -->
                         </div>
                     </div>

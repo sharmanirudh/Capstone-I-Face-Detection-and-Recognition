@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
 class Person(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40), nullable=False)
-    images = db.relationship('Dataset', backref='author', lazy=True)
+    images = db.relationship('Dataset', backref='author', lazy=True, cascade='delete')
 
     def __repr__(self):
         return f"Person('{self.id}', '{self.name}')"

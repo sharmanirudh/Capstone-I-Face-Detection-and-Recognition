@@ -5,7 +5,26 @@
         {{ form.hidden_tag() }}
         <div class="container col-md-12 col-lg-11">
             <div class="row">
-                <h3 class="p-1">Register Face</h3>
+                <h3 class="p-1">Update Face - {{ datasets[0].author.name }} ({{ datasets|length }})</h3>
+            </div>
+            
+            <div class="line"></div>
+
+            <div class="form-row">
+                <label class="col-form-label col-form-label-lg" for="name">Delete old images</label>
+                <div class="col-12">
+                    <div class="photoFrame shadow-lg p-3 bg-white rounded text-center">
+                        <div class="imageContainer">
+                            {% for dataset in datasets: %}
+                                <a id="{{ dataset.id }}" href='#' class='pop'><img data-toggle='modal' data-target='#imageModal' class="img-rounded listFaces" src="{{ url_for('static', filename='images/dataset/' + datasets[0].author.id|string + '/' + dataset.image_file) }}" alt="file_name"></a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row mt-4">
+                <label class="col-form-label col-form-label-lg" for="name">Add new images</label>
                 <div class="col-12">
                     <div class="file-field float-right">
                         <a class="btn-floating bg-dark mt-0 float-left">
@@ -25,10 +44,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="line"></div>
 
-            <div class="form-row">
+            <div class="form-row mt-4">
                 <div class="form-group col-md-6">
                     {{ form.name.label(class="col-form-label col-form-label-lg") }}
                     {% if form.name.errors %}

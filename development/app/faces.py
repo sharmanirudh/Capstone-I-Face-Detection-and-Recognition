@@ -1,6 +1,6 @@
 import os, os.path
 from os import scandir
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 import face_recognition
 import numpy as np
 import pickle
@@ -113,7 +113,7 @@ def detectFaces(image):
 	    # pil_image = Image.fromarray(face_image)
 	    
 	    # Draw a box around the face using the Pillow module
-	    draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255), width=0)
+	    draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255), width=3)
 
 	# Remove the drawing library from memory as per the Pillow docs
 	del draw
@@ -127,8 +127,10 @@ def detectFaces(image):
 #                      Recognize faces in image                    #
 ####################################################################
 def recognizeFaces(image):
-	cwd = os.getcwd()  # Get the current working directory (cwd)
-	files = os.listdir(cwd)  # Get all the files in that directory
+	# Get the current working directory (cwd)
+	cwd = os.getcwd()
+	# Get all the files in that directory
+	files = os.listdir(cwd)
 	print("Files in '%s': %s" % (cwd, files))
 	# Load face encodings
 	with open('./app/dataset_faces.dat', 'rb') as f:
@@ -175,10 +177,24 @@ def recognizeFaces(image):
 		# Draw a box around the face using the Pillow module
 		draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
 
+		fontsize = 1  # starting font size
+
+		# portion of image width you want text width to be
+		img_fraction = 0.50
+
+		font = ImageFont.truetype("./app/static/fonts/GoogleSans-Regular.ttf", fontsize)
+		while font.getsize(name)[0] < img_fraction * (right - left):
+		    # iterate until the text size is just larger than the criteria
+		    fontsize += 1
+		    font = ImageFont.truetype("./app/static/fonts/GoogleSans-Regular.ttf", fontsize)
+
+		# optionally de-increment to be sure it is less than criteria
+		fontsize -= 1
+		font = ImageFont.truetype("./app/static/fonts/GoogleSans-Regular.ttf", fontsize)
 		# Draw a label with a name below the face
 		text_width, text_height = draw.textsize(name)
-		draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255))
-		draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255))
+		draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255), width=3)
+		draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255), font=font)
 
 	# Remove the drawing library from memory as per the Pillow docs
 	del draw
