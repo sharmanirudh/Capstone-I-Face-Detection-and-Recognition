@@ -1,5 +1,6 @@
 import os
 import secrets
+import shutil
 from PIL import Image
 from flask import render_template, url_for, flash, redirect, request, make_response, send_from_directory
 from app import app, db, bcrypt
@@ -272,9 +273,9 @@ def delete_person(person_id):
     db.session.delete(person)
     db.session.commit()
     shutil.rmtree('./app/static/images/dataset/' + str(person_id) +'/')
+    faces.make_new_face_encodings()
     flash(f'Successfully deleted person - {person.name}!', 'success')
     return redirect(url_for('all_faces'))
-
 
 @app.route('/manifest.json')
 def manifest():

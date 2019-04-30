@@ -36,7 +36,7 @@ def make_new_face_encodings():
         	all_face_encodings[f_person_id] = face_encodings[0]
 
         # save encoding
-        with open('dataset_faces.dat', 'wb') as f:
+        with open('./app/dataset_faces.dat', 'wb') as f:
             pickle.dump(all_face_encodings, f)
 
 
@@ -171,7 +171,7 @@ def recognizeFaces(image):
 		best_match_index = np.argmin(face_distances)
 		if matches[best_match_index]:
 			# add 1 beacuse sqlalchemy starts id from 1
-		    id = int(known_face_names[best_match_index]) + 1
+		    id = int(known_face_names[best_match_index])
 		    name = Person.query.get(id).name
 
 		# Draw a box around the face using the Pillow module
@@ -180,7 +180,7 @@ def recognizeFaces(image):
 		fontsize = 1  # starting font size
 
 		# portion of image width you want text width to be
-		img_fraction = 0.50
+		img_fraction = 0.98
 
 		font = ImageFont.truetype("./app/static/fonts/GoogleSans-Regular.ttf", fontsize)
 		while font.getsize(name)[0] < img_fraction * (right - left):
